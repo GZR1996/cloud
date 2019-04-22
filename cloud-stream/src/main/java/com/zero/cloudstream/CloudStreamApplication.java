@@ -1,41 +1,27 @@
-package com.zero.cloudzuul;
+package com.zero.cloudstream;
 
-import com.zero.cloudzuul.pipeline.Pipeline;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.handler.annotation.SendTo;
 
-/**
- * @author zero
- * @date 2019/4/22 11:12:00
- */
-
-@EnableZuulProxy
-@EnableBinding({Processor.class, Pipeline.class})
+@EnableBinding(Processor.class)
 @SpringBootApplication
-public class CloudZuulApplication {
+public class CloudStreamApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CloudZuulApplication.class, args);
+        SpringApplication.run(CloudStreamApplication.class, args);
     }
 
     @StreamListener(Processor.INPUT)
     @SendTo(Processor.OUTPUT)
-    public Person handle(Person person) {
-        System.out.println("Received 1: " + person);
-        person.setName(person.toString().toUpperCase());
-        System.out.println("Set Name: " + person);
-        return person;
-    }
-
-    @StreamListener(Pipeline.INPUT)
-    public void handleMyPipe(Person person) {
-        int a;
-        System.out.println("Received 2: " + person);
+    public Object handle(Person person) {
+        System.out.println("Received: " + person);
+        return JSON.toJSON(person);
     }
 
     public static class Person {
