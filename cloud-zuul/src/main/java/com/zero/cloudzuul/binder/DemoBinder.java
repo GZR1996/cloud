@@ -1,4 +1,4 @@
-package com.zero.cloudzuul.pipeline;
+package com.zero.cloudzuul.binder;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;
@@ -8,10 +8,10 @@ import org.springframework.messaging.SubscribableChannel;
  * @date 2019/4/22 17:39
  */
 
-public interface Pipeline {
+public interface DemoBinder {
 
-    String INPUT = "output";
+    String NAME = "example-topic";
 
-    @Input(Pipeline.INPUT)
+    @Input(DemoBinder.NAME)
     SubscribableChannel input();
 }

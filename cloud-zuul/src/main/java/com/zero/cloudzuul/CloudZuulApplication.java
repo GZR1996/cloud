@@ -1,6 +1,6 @@
 package com.zero.cloudzuul;
 
-import com.zero.cloudzuul.pipeline.Pipeline;
+import com.zero.cloudzuul.binder.DemoBinder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -15,7 +15,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
  */
 
 @EnableZuulProxy
-@EnableBinding({Processor.class, Pipeline.class})
+@EnableBinding({Processor.class, DemoBinder.class})
 @SpringBootApplication
 public class CloudZuulApplication {
 
@@ -23,7 +23,7 @@ public class CloudZuulApplication {
         SpringApplication.run(CloudZuulApplication.class, args);
     }
 
-    @StreamListener(Processor.INPUT)
+   /* @StreamListener(Processor.INPUT)
     @SendTo(Processor.OUTPUT)
     public Person handle(Person person) {
         System.out.println("Received 1: " + person);
@@ -32,11 +32,11 @@ public class CloudZuulApplication {
         return person;
     }
 
-    @StreamListener(Pipeline.INPUT)
+    @StreamListener(DemoBinder.INPUT)
     public void handleMyPipe(Person person) {
         int a;
         System.out.println("Received 2: " + person);
-    }
+    }*/
 
     public static class Person {
         private String name;
