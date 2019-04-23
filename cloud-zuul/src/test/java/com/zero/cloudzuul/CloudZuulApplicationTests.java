@@ -1,5 +1,6 @@
 package com.zero.cloudzuul;
 
+import com.zero.cloudzuul.binder.DemoBinder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@EnableBinding(value = {CloudZuulApplicationTests.ExampleBinder.class})
+@EnableBinding(value = {DemoBinder.class})
 public class CloudZuulApplicationTests {
 
     @Autowired
-    private ExampleBinder exampleBinder;
+    private DemoBinder demoBinder;
 
     @Test
     public void test() {
@@ -25,15 +26,6 @@ public class CloudZuulApplicationTests {
 
     @Test
     public void exampleBinderTester() {
-        exampleBinder.output().send(MessageBuilder.withPayload("Produce a message from : http://blog.didispace.com").build());
-    }
-
-    public interface ExampleBinder {
-
-        String NAME = "example-topic";
-
-        @Output(ExampleBinder.NAME)
-        MessageChannel output();
-
+        demoBinder.output().send(MessageBuilder.withPayload("Produce a message from : http://blog.didispace.com").build());
     }
 }

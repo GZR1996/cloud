@@ -23,20 +23,6 @@ public class CloudZuulApplication {
         SpringApplication.run(CloudZuulApplication.class, args);
     }
 
-   /* @StreamListener(Processor.INPUT)
-    @SendTo(Processor.OUTPUT)
-    public Person handle(Person person) {
-        System.out.println("Received 1: " + person);
-        person.setName(person.toString().toUpperCase());
-        System.out.println("Set Name: " + person);
-        return person;
-    }
-
-    @StreamListener(DemoBinder.INPUT)
-    public void handleMyPipe(Person person) {
-        int a;
-        System.out.println("Received 2: " + person);
-    }*/
 
     public static class Person {
         private String name;

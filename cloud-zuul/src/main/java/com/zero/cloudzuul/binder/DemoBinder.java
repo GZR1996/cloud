@@ -1,6 +1,8 @@
 package com.zero.cloudzuul.binder;
 
 import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 /**
@@ -10,8 +12,12 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface DemoBinder {
 
-    String NAME = "example-topic";
+    String INPUT = "example-topic-1";
+    String OUTPUT = "example-topic-2";
 
-    @Input(DemoBinder.NAME)
+    @Input(DemoBinder.INPUT)
     SubscribableChannel input();
+
+    @Output(DemoBinder.OUTPUT)
+    MessageChannel output();
 }
