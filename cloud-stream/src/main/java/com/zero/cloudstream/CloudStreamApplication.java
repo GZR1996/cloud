@@ -7,6 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
+/**
+ * @author zero
+ * @date 2019/4/22 11:12:00
+ */
+
+
 @EnableBinding(DemoBinder.class)
 @SpringBootApplication
 public class CloudStreamApplication {
