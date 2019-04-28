@@ -1,25 +1,24 @@
-package com.zero.cloudfeign.controller;
+package com.zero.cloudribbon.controller;
 
-import com.zero.cloudfeign.client.DcClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author zero
- * @date 2019/4/11 13:42
+ * @date 2019/4/28 16:58
  */
 
 @RestController
 public class DcController {
 
     @Autowired
-    DcClient client;
+    RestTemplate template;
 
     @RequestMapping(value = "/consumer", method = RequestMethod.GET)
     public String dc() {
-        return client.consumer();
+        return template.getForObject("http://cloud-eureka-client/dc", String.class);
     }
-
 }

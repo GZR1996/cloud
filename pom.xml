@@ -68,7 +68,8 @@
         <module>cloud-eureka-client-2</module>
         <module>cloud-zuul</module>
         <module>cloud-feign</module>
+        <module>cloud-ribbon</module>
         <module>cloud-stream</module>
-        <!--<module>cloud-config</module>-->
+        <module>cloud-config-server</module>
     </modules>
 </project>
