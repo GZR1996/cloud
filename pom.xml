@@ -63,10 +63,12 @@
 
     <modules>
         <module>cloud-eureka-server</module>
+        <module>cloud-eureka-server-backup</module>
         <module>cloud-eureka-client-1</module>
         <module>cloud-eureka-client-2</module>
         <module>cloud-zuul</module>
         <module>cloud-feign</module>
+        <module>cloud-stream</module>
         <!--<module>cloud-config</module>-->
     </modules>
 </project>
