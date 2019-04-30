@@ -3,19 +3,16 @@ package com.zero.cloudribbon.service;
 import com.alibaba.fastjson.JSONObject;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
-import com.zero.cloudribbon.controller.DcController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import rx.Observable;
+import rx.Subscriber;
 
 import java.net.URI;
 import java.util.Iterator;
@@ -88,6 +85,37 @@ public class ConsumeService {
                 return json;
             }
         };
+    }
+
+    /**
+     * 熔断-自定义Observable对象
+     * @return
+     */
+    public Observable<JSONObject> consumer4() {
+        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+            @Override
+            public void call(Subscriber<? super JSONObject> subscriber) {
+                try {
+                    UriComponents uriComponents = UriComponentsBuilder.fromUriString(
+                            "http://CLOUD-EUREKA-CLIENT/setUser?username={username}&password={123456}")
+                            .build()
+                            .expand("hello", "world")
+                            .encode();
+                    URI uri = uriComponents.toUri();
+                    LinkedHashMap<String, String> map = (LinkedHashMap<String, String>) template.getForObject(uri, Object.class);
+                    JSONObject json = new JSONObject(true);
+                    Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry entry = iterator.next();
+                        json.put((String) entry.getKey(), entry.getValue());
+                    }
+                    subscriber.onNext(json);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 
     public JSONObject setUserFallback() {
