@@ -60,4 +60,10 @@ public class DcController {
     public Observable<JSONObject> consumer4() {
         return service.consumer4();
     }
+
+    @RequestMapping(value = "/consumer5", method = RequestMethod.GET)
+    public JSONObject consumer5() {
+        return service.consumer5();
+    }
+
 }

@@ -2,6 +2,7 @@ package com.zero.cloudfeign;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2019/4/22 11:12:00
  */
 
+@EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
 public class CloudFeignApplication {

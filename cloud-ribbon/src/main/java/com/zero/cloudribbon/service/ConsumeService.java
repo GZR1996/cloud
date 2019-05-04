@@ -3,6 +3,7 @@ package com.zero.cloudribbon.service;
 import com.alibaba.fastjson.JSONObject;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
+import com.zero.cloudribbon.command.DemoCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -64,7 +65,7 @@ public class ConsumeService {
      * 熔断-异步实现
      * @return
      */
-    @HystrixCommand
+    @HystrixCommand(fallbackMethod = "setUserFallback")
     public Future<JSONObject> consumer3() {
         return new AsyncResult<JSONObject>() {
             @Override
@@ -91,6 +92,7 @@ public class ConsumeService {
      * 熔断-自定义Observable对象
      * @return
      */
+    @HystrixCommand(commandKey = "consumer4", groupKey = "test", threadPoolKey = "consumer4Thread", fallbackMethod = "setUserFallback")
     public Observable<JSONObject> consumer4() {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
@@ -116,6 +118,11 @@ public class ConsumeService {
                 }
             }
         });
+    }
+
+    public JSONObject consumer5() {
+        DemoCommand command = new DemoCommand();
+        return command.execute();
     }
 
     public JSONObject setUserFallback() {
