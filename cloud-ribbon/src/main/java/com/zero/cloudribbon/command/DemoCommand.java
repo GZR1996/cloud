@@ -1,10 +1,7 @@
 package com.zero.cloudribbon.command;
 
 import com.alibaba.fastjson.JSONObject;
-import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.HystrixThreadPoolKey;
+import com.netflix.hystrix.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -31,10 +28,11 @@ public class DemoCommand extends HystrixCommand<JSONObject> {
     public DemoCommand() {
         /*super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("GroupName"))
                     .andCommandKey(HystrixCommandKey.Factory.asKey("CommandName")));*/
-        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("1"))
-                    .andCommandKey(HystrixCommandKey.Factory.asKey("2"))
-                    .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("3")));
-        logger.info("CommandKey: " + this.commandKey);
+        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("rpcGroup"))
+                    .andCommandKey(HystrixCommandKey.Factory.asKey("rpcCommand"))
+                    .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("rpcThreadPool"))
+                    .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(3000)));
+        this.id = (long) 1;
     }
 
     public DemoCommand(Setter setter, RestTemplate template, Long id) {
@@ -51,7 +49,7 @@ public class DemoCommand extends HystrixCommand<JSONObject> {
     @Override
     protected JSONObject run() throws Exception {
         UriComponents uriComponents = UriComponentsBuilder.fromUriString(
-                "http://CLOUD-EUREKA-CLIENT/setUser?username={username}&password={123456}")
+                "http://cloud-eureka-client/setUser?username={username}&password={123456}")
                 .build()
                 .expand("hello", "world")
                 .encode();
@@ -70,18 +68,18 @@ public class DemoCommand extends HystrixCommand<JSONObject> {
      * 重载熔断方法
      * @return
      */
-    /*@Override
+    @Override
     protected JSONObject getFallback() {
         JSONObject json = new JSONObject();
         json.put("msg", "fallback");
         return json;
-    }*/
+    }
 
     /**
      * 重载缓存方法
      * @return
-     *//*
-    @Override
+     */
+    /*@Override
     protected String getCacheKey() {
         return String.valueOf(id);
     }*/
