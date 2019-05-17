@@ -65,5 +65,4 @@ public class DcController {
     public JSONObject consumer5() {
         return service.consumer5();
     }
-
 }
