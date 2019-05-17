@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.netflix.hystrix.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,6 +23,7 @@ public class DemoCommand extends HystrixCommand<JSONObject> {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
     private RestTemplate template;
     private Long id;
 

@@ -1,5 +1,6 @@
 package com.zero.cloudfeign.component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zero.cloudfeign.client.DcClient;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
@@ -23,6 +24,13 @@ public class HystrixClientFallbackFactory implements FallbackFactory<DcClient> {
             public String consumer() {
                 log.error("异常处理={}", throwable);
                 return "Execute raw fallback: access service fail , " + " reason = " + throwable;
+            }
+
+            @Override
+            public JSONObject setUser(String username, String password) {
+                JSONObject json = new JSONObject();
+                json.put("msg", "Execute raw fallback: access service fail , " + " reason = " + throwable);
+                return json;
             }
         };
     }

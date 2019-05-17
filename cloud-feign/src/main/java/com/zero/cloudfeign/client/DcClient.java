@@ -1,9 +1,11 @@
 package com.zero.cloudfeign.client;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zero.cloudfeign.component.HystrixClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author zero
@@ -19,4 +21,9 @@ public interface DcClient {
      */
     @RequestMapping(value = "/dc", method = RequestMethod.GET)
     String consumer();
+
+
+    @RequestMapping(value = "/setUser", method = RequestMethod.GET)
+    JSONObject setUser(@RequestParam("username") String username,
+                       @RequestParam("password") String password);
 }
